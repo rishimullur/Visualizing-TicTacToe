@@ -12,9 +12,10 @@ class TicTacToeCLI:
 
         log_file = 'logs/tictactoe_game_log.csv'
         fieldnames = ['Game Time', 'Player 1 Name', 'Player 2 Name', 'Draw', 'Winner']
-        with open(log_file, 'w', newline='') as csvfile:
-            csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            csv_writer.writeheader()
+        #Only run this once, to set header
+        # with open(log_file, 'w', newline='') as csvfile:
+        #     csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        #     csv_writer.writeheader()
 
         board = self.logic.make_empty_board()
         start_time = datetime.now()
@@ -51,13 +52,14 @@ class TicTacToeCLI:
                 move = 'Bot'
             winner = self.logic.get_winner(board)
 
-            end_time = datetime.now()
-            game_time = (end_time - start_time).total_seconds()
+            if winner!= None:
+                end_time = datetime.now()
+                game_time = (end_time - start_time).total_seconds()
 
-            with open(log_file, 'w', newline='') as csvfile:
-                csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                csv_writer.writerow({'Game Time': game_time, 'Player 1 Name': player1_name, 'Player 2 Name': player2_name,
-                                    'Draw': winner == 'Draw', 'Winner': 'Bot' if winner == 'O' else player})
+                with open(log_file, 'a', newline='') as csvfile:
+                    csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                    csv_writer.writerow({'Game Time': game_time, 'Player 1 Name': player1_name, 'Player 2 Name': player2_name,
+                                        'Draw': winner == 'Draw', 'Winner': 'Bot' if winner == 'O' else player})
 
             print("Winner",winner)
             if winner == 'Draw':
