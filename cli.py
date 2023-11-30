@@ -56,10 +56,20 @@ class TicTacToeCLI:
                 end_time = datetime.now()
                 game_time = (end_time - start_time).total_seconds()
 
+                player_winner = ' '
+
+                if winner == 'X':
+                    player_winner = player1_name
+                elif winner == 'O' and game_type == 2:
+                    player_winner = player2_name
+                elif winner == 'O' and game_type == 1:
+                    player_winner = 'Bot'
+
+
                 with open(log_file, 'a', newline='') as csvfile:
                     csv_writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                     csv_writer.writerow({'Game Time': game_time, 'Player 1 Name': player1_name, 'Player 2 Name': player2_name,
-                                        'Draw': winner == 'Draw', 'Winner': 'Bot' if winner == 'O' else player})
+                                        'Draw': winner == 'Draw', 'Winner': player_winner})
 
             print("Winner",winner)
             if winner == 'Draw':
